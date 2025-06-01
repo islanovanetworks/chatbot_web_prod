@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaShop | Prueba NovaBot en nuestra tienda de tecnología ficticia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #1a4d3a;
+            --secondary-green: #2d7a5f;
+            --accent-green: #40a578;
+            --light-green: #5fbf84;
+            --bg-dark: #0a0f0d;
+            --bg-secondary: #152119;
+            --text-primary: #ffffff;
+            --text-secondary: #b8d4c2;
+            --border-color: #2d4a3d;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(26, 77, 58, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--light-green);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo::before {
+            content: "🚀";
+            font-size: 1.5rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu a:hover {
+            color: var(--light-green);
+            transform: translateY(-2px);
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-green);
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            padding: 4rem 2rem;
+            text-align: center;
+            background: linear-gradient(45deg, var(--primary-green), var(--secondary-green));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .demo-badge {
+            display: inline-block;
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--light-green), #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, var(--accent-green), var(--light-green));
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(64, 165, 120, 0.3);
+            margin: 0.5rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(64, 165, 120, 0.4);
+        }
+
+        .cta-secondary {
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            color: white;
+        }
+
+        /* Products Section */
+        .products {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--light-green);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: rgba(26, 77, 58, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .product-card:hover::before {
+            left: 100%;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-green);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .product-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--light-green);
+        }
+
+        .product-price {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent-green);
+            margin: 1rem 0;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--secondary-green), var(--accent-green));
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(45, 122, 95, 0.4);
+        }
+
+        /* ChatBot */
+        .chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1001;
+        }
+
+        .chatbot-toggle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent-green), var(--light-green));
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            box-shadow: 0 4px 20px rgba(64, 165, 120, 0.4);
+            transition: all 0.3s ease;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .chatbot-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(64, 165, 120, 0.6);
+        }
+
+        .chatbot-window {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 350px;
+            height: 500px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            display: none;
+            flex-direction: column;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .chatbot-header {
+            background: linear-gradient(45deg, var(--primary-green), var(--secondary-green));
+            padding: 1rem;
+            color: white;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chatbot-messages {
+            flex-grow: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            background: rgba(10, 15, 13, 0.8);
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            border-radius: 10px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .message.bot {
+            background: rgba(26, 77, 58, 0.6);
+            color: var(--text-primary);
+            align-self: flex-start;
+            border: 1px solid var(--border-color);
+        }
+
+        .message.user {
+            background: linear-gradient(45deg, var(--accent-green), var(--light-green));
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+
+        .message.loading {
+            background: rgba(26, 77, 58, 0.6);
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .chatbot-input {
+            display: flex;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .chatbot-input input {
+            flex-grow: 1;
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            outline: none;
+            margin-right: 0.5rem;
+        }
+
+        .chatbot-input input:focus {
+            border-color: var(--accent-green);
+            box-shadow: 0 0 0 2px rgba(64, 165, 120, 0.2);
+        }
+
+        .chatbot-input button {
+            padding: 0.8rem 1rem;
+            background: linear-gradient(45deg, var(--accent-green), var(--light-green));
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chatbot-input button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(45deg, var(--primary-green), var(--secondary-green));
+            padding: 4rem 2rem;
+            text-align: center;
+            margin: 4rem 0;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--light-green);
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--primary-green);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-notice {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            color: #ffc107;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .chatbot-window {
+                width: 300px;
+                height: 400px;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <a href="#" class="logo">NovaShop</a>
+            <ul class="nav-menu">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#productos">Productos</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+        <div class="hero-content">
+            <div class="demo-badge">🤖 DEMO INTERACTIVA - TIENDA FICTICIA</div>
+            <h1>Bienvenido a NovaShop</h1>
+            <p>Descubre nuestra selección de tecnología de vanguardia. Esta es una tienda de demostración para probar NovaBot, nuestro asistente de IA conversacional.</p>
+            <div style="background: rgba(255, 193, 7, 0.1); padding: 1rem; border-radius: 10px; margin: 2rem 0; border: 1px solid rgba(255, 193, 7, 0.3);">
+                <strong style="color: #ffc107;">💡 Usa NovaBot en tu web con un diseño totalmente personalizado</strong>
+            </div>
+            <a href="#productos" class="cta-button">Explorar Productos</a>
+            <a href="https://www.islanovanetworks.com/contacto-inteligencia-artificial" target="_blank" class="cta-button cta-secondary">¿Quieres una IA totalmente adaptada a tus necesidades? Hablemos.</a>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="productos">
+        <h2 class="section-title">Productos Destacados</h2>
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-icon">💻</div>
+                <h3>Laptop Gaming Pro</h3>
+                <p>Laptop de alta performance con procesador Intel i9, RTX 4080 y 32GB RAM. Perfecta para gaming y trabajo profesional.</p>
+                <div class="product-price">€2,299</div>
+                <button class="btn-primary" onclick="addToCart('Laptop Gaming Pro')">Añadir al Carrito</button>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-icon">📱</div>
+                <h3>Smartphone Nova X</h3>
+                <p>Smartphone de última generación con cámara de 108MP, batería de 5000mAh y pantalla AMOLED de 6.7 pulgadas.</p>
+                <div class="product-price">€899</div>
+                <button class="btn-primary" onclick="addToCart('Smartphone Nova X')">Añadir al Carrito</button>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-icon">🎧</div>
+                <h3>Auriculares Quantum</h3>
+                <p>Auriculares inalámbricos con cancelación de ruido activa, sonido Hi-Fi y hasta 30 horas de autonomía.</p>
+                <div class="product-price">€299</div>
+                <button class="btn-primary" onclick="addToCart('Auriculares Quantum')">Añadir al Carrito</button>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-icon">⌚</div>
+                <h3>Smartwatch Elite</h3>
+                <p>Reloj inteligente con monitoreo de salud 24/7, GPS integrado y resistencia al agua hasta 50 metros.</p>
+                <div class="product-price">€449</div>
+                <button class="btn-primary" onclick="addToCart('Smartwatch Elite')">Añadir al Carrito</button>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-icon">🖥️</div>
+                <h3>Monitor 4K Curved</h3>
+                <p>Monitor curvo de 32 pulgadas con resolución 4K, frecuencia de 144Hz y tecnología HDR para una experiencia visual inmersiva.</p>
+                <div class="product-price">€699</div>
+                <button class="btn-primary" onclick="addToCart('Monitor 4K Curved')">Añadir al Carrito</button>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-icon">🖱️</div>
+                <h3>Mouse Gaming RGB</h3>
+                <p>Mouse ergonómico para gaming con sensor óptico de alta precisión, 12 botones programables y iluminación RGB personalizable.</p>
+                <div class="product-price">€79</div>
+                <button class="btn-primary" onclick="addToCart('Mouse Gaming RGB')">Añadir al Carrito</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2>¿Listo para tu propia IA?</h2>
+        <p>NovaBot es solo el comienzo. Podemos crear asistentes inteligentes completamente personalizados para tu negocio, automatizar procesos y desarrollar soluciones que realmente escalen tu empresa.</p>
+        <a href="https://www.islanovanetworks.com/contacto-inteligencia-artificial" target="_blank" class="cta-button cta-secondary">Contacta con nosotros</a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contacto">
+        <div class="footer-notice">
+            <strong>⚠️ AVISO:</strong> Esta es una tienda ficticia creada únicamente para demostrar las capacidades de NovaBot. Los productos y precios mostrados no son reales.
+        </div>
+        <p>&copy; 2025 NovaShop - Tienda de Demostración | Powered by NovaBot</p>
+        <p>Para implementar NovaBot en tu sitio web real, visita <a href="https://www.islanovanetworks.com" target="_blank" style="color: var(--light-green);">islanovanetworks.com</a></p>
+    </footer>
+
+    <!-- ChatBot -->
+    <div class="chatbot-container">
+        <button class="chatbot-toggle" onclick="toggleChatbot()">💬</button>
+        <div class="chatbot-window" id="chatbotWindow">
+            <div class="chatbot-header">
+                <span>🤖 NovaBot</span>
+                <button onclick="toggleChatbot()" style="background: none; border: none; color: white; cursor: pointer; font-size: 1.2rem;">×</button>
+            </div>
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="message bot">
+                    ¡Hola! Soy NovaBot, tu asistente IA. Estoy aquí como ejemplo de lo que podemos construir para tu negocio: asistentes, automatizaciones y soluciones inteligentes personalizadas. ¿Quieres ver cómo podría ayudarte a escalar tu empresa?
+                </div>
+            </div>
+            <div class="chatbot-input">
+                <input type="text" id="chatInput" placeholder="Escribe tu mensaje..." onkeypress="handleKeyPress(event)">
+                <button id="sendButton" onclick="sendMessage()">Enviar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let chatbotOpen = false;
+        let cart = [];
+        const webhookUrl = 'https://islanovanetwork.app.n8n.cloud/webhook/bf8f9052-5fbe-49da-857d-0c3387f83189/chat';
+        let isProcessing = false;
+        
+        function parseMarkdownToHTML(text) {
+            // Solo convierte Markdown básico si viene sin etiquetas HTML.
+            // Si ya hay <a> o <br>, no escapa ni altera.
+        
+            // Convertir negritas Markdown a <strong>
+            text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        
+            // Convertir enlaces Markdown a <a>
+            text = text.replace(/\[(.+?)\]\((https?:\/\/[^\s]+?)\)/g, '<a href="$2" target="_blank" style="color: #5fbf84;">$1</a>');
+        
+            // Convertir saltos de línea a <br>
+            text = text.replace(/\n{2,}/g, '</p><p>').replace(/\n/g, '<br>');
+        
+            // Envolver en <p> si no tiene ninguna etiqueta de bloque
+            if (!/^<p>/.test(text)) {
+                text = `<p>${text}</p>`;
+            }
+        
+            return text;
+        }
+
+        function toggleChatbot() {
+            const window = document.getElementById('chatbotWindow');
+            chatbotOpen = !chatbotOpen;
+            window.style.display = chatbotOpen ? 'flex' : 'none';
+            
+            if (chatbotOpen) {
+                document.getElementById('chatInput').focus();
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter' && !isProcessing) {
+                sendMessage();
+            }
+        }
+
+        function addMessage(message, isUser = false, isLoading = false) {
+            const messagesContainer = document.getElementById('chatbotMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'bot'} ${isLoading ? 'loading' : ''}`;
+            messageDiv.innerHTML = parseMarkdownToHTML(message);
+            if (isLoading) messageDiv.id = 'loadingMessage';
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            return messageDiv;
+        }
+
+        function removeLoadingMessage() {
+            const loadingMsg = document.getElementById('loadingMessage');
+            if (loadingMsg) loadingMsg.remove();
+        }
+
+        function addToCart(product) {
+            cart.push(product);
+            addMessage(`✅ ${product} ha sido añadido al carrito. Total de productos: ${cart.length}`, false);
+            
+            if (!chatbotOpen) {
+                toggleChatbot();
+            }
+        }
+
+        async function sendMessage() {
+            if (isProcessing) return;
+            
+            const input = document.getElementById('chatInput');
+            const sendButton = document.getElementById('sendButton');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // UI Updates
+            isProcessing = true;
+            addMessage(message, true);
+            input.value = '';
+            sendButton.disabled = true;
+            sendButton.textContent = '...';
+            
+            const loadingMsg = addMessage('🤖 Pensando...', false, true);
+
+            try {
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        cart_items: cart,
+                        timestamp: new Date().toISOString(),
+                        user_id: 'demo_user_' + Date.now()
+                    })
+                });
+            
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+            
+                const data = await response.json();
+            
+                // ✅ Mostrar la respuesta real del agente IA
+                if (data.output) {
+                    addMessage(data.output, false);
+                } else {
+                    addMessage("⚠️ El asistente no devolvió ninguna respuesta útil.", false);
+                }
+            
+            } catch (error) {
+                console.error('Error al procesar la solicitud:', error);
+                addMessage("❌ Lo siento, no pude procesar tu mensaje.", false);
+            }
+             finally {
+                isProcessing = false;
+                sendButton.disabled = false;
+                sendButton.textContent = 'Enviar';
+            }
+        }
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Auto-open chatbot on page load after 3 seconds
+        setTimeout(() => {
+            if (!chatbotOpen) {
+                toggleChatbot();
+            }
+        }, 3000);
+    </script>
+</body>
+</html>
